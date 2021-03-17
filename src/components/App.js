@@ -1,17 +1,18 @@
-import React, { createContext, useReducer } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { init, reducer } from '../store/store';
+import FoodDataProvider from '../provider/reducers/cartProvider';
 import Home from './Home/Home';
 import ProductDetails from './Home/ProductDetails';
+import Navbar from './Navbar/Navbar';
+import Cart from './Cart/Cart';
 
-export const FoodDataContext = createContext();
 
 const App = () => {
-	const [state, dispatch] = useReducer(reducer, init);
+
 
 	return (
-		<FoodDataContext.Provider value={{ state, dispatch }}>
+		<FoodDataProvider>
 			<BrowserRouter>
+				<Navbar />
 				<Switch>
 					<Route exact path="/" >
 						<Home />
@@ -19,9 +20,12 @@ const App = () => {
 					<Route path="/product/:id">
 						<ProductDetails />
 					</Route>
+					<Route path="/cart">
+						<Cart />
+					</Route>
 				</Switch>
 			</BrowserRouter>
-		</FoodDataContext.Provider>
+		</FoodDataProvider>
 	);
 };
 

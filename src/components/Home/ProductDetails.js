@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { FoodDataContext } from '../App';
+import { addToCart, getProducts } from '../../provider/actions/cartAction';
+import { FoodDataContext } from '../../provider/reducers/cartProvider';
+
 
 const ProductDetails = () => {
     const { id } = useParams();
@@ -8,35 +10,19 @@ const ProductDetails = () => {
     const { product } = state;
 
     useEffect(() => {
-        dispatch({
-            type: 'GET_PRODUCT',
-            payload: {
-                id: id
-            }
-        })
-    }, [dispatch, id]);
+       dispatch(getProducts(id))
+    }, [id, dispatch]);
 
-    const handleAddToCart = (product) => event => {
-        dispatch({
-            type: 'ADD_TO_CART',
-            payload: {
-                product: {
-                    ...product,
-                    quantity: 1,
-                }
-            }
-        })
+    const addToCartHandler = () => {
+        dispatch(addToCart(product, 1))
     }
-console.log(state);
-
-
-    return (
+      return (
         <div className="container py-5">
             <div className="row">
                 <div className="col-md-6">
                     <h1>{product?.title} </h1>
                     <p>{product?.description}</p>
-                    <button className="btn btn-primary" onClick={handleAddToCart(product)}>Add to Cart</button>
+                    <button className="btn btn-primary" onClick={addToCartHandler}>Add to Cart</button>
                 </div>
                 <div className="col-md-6">
                     <img src={product?.img} alt="" className="img-fluid" />

@@ -1,10 +1,15 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { FoodDataContext } from '../App';
+import { addToCart } from '../../provider/actions/cartAction';
+import { FoodDataContext } from '../../provider/reducers/cartProvider';
 
 const Home = () => {
-    const { state } = useContext(FoodDataContext);
-    console.log(state)
+    const { state, dispatch } = useContext(FoodDataContext);
+ 
+    const addToCartHandler = (product) => {
+        dispatch(addToCart(product, 1))
+    }
+
     return (
         <div className="container">
             <div className="row">
@@ -15,7 +20,8 @@ const Home = () => {
                             <div className="card-body">
                                 <h5 className="card-title"> {product.title} </h5>
                                 <p className="card-text"> {product.shotDescription} </p>
-                                <Link to={`/product/${product.id}`} className="btn btn-primary">Go somewhere</Link>
+                                <Link to={`/product/${product.id}`} className="btn btn-primary">Go somewhere</Link> 
+                                <button className="btn btn-secondary" onClick={() => addToCartHandler(product)}>Add To Cart</button>
                             </div>
                         </div>
                     </div>
