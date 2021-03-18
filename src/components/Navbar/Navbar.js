@@ -12,13 +12,13 @@ const Navbar = () => {
                 </Link>
                 <ul className="navbar-nav">
                     <li class="nav-item">
-                        <Link to="/cart" class="nav-link active">
+                        <Link to="/cart" className=" nav-link active">
                             Cart ( {state.cart.length} )
                         </Link>
                     </li>
                     <li class="nav-item">
-                        <Link to="/wishlist" class="nav-link active">
-                            Wishlist ()
+                        <Link to="/wishlist" className="nav-link active">
+                            Wishlist ({state.wishlist.length})
                         </Link>
                     </li>
                 </ul>

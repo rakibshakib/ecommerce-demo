@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 import foods from '../../data/products.json';
-import { ADD_TO_CART, GET_PRODUCT, REMOVE_PRODUCT } from '../actions/types';
+import { ADD_TO_CART, ADD_TO_WISHLIST, GET_PRODUCT, REMOVE_PRODUCT } from '../actions/types';
 
 export const FoodDataContext = createContext();
 
@@ -28,23 +28,40 @@ const cartReducer = (state = init, action) => {
             const selectedProduct = action.payload.product;
             const hasProduct = state.cart.find(p => p.id == selectedProduct.id);
 
-            if(hasProduct){
+            if (hasProduct) {
                 hasProduct.quantity = hasProduct.quantity + 1;
-               const productIndex = state.cart.findIndex(p => p.id == selectedProduct.id);
-               state.cart[productIndex] = hasProduct;
+                const productIndex = state.cart.findIndex(p => p.id == selectedProduct.id);
+                state.cart[productIndex] = hasProduct;
 
-               return{
-                   ...state,
-                   cart: [...state.cart]
-               }
+                return {
+                    ...state,
+                    cart: [...state.cart]
+                }
             }
             return {
                 ...state,
                 cart: [selectedProduct, ...state.cart]
             }
         }
+
+        case ADD_TO_WISHLIST: {
+            const selectedP = action.payload.product;
+            const hasProduct = state.wishlist.find(p => p.id == selectedP.id);
+            if (hasProduct) {
+                alert('already product added wishlist')
+                return {
+                    ...state,
+                }
+            }
+            return {
+                ...state,
+                wishlist: [selectedP, ...state.cart]
+            }
+
+        }
+
         case REMOVE_PRODUCT: {
-            return{
+            return {
                 ...state,
                 cart: state.cart.filter(p => p.id != action.payload.id)
             }
@@ -58,8 +75,8 @@ const cartReducer = (state = init, action) => {
 const FoodDataProvider = (props) => {
     const [state, dispatch] = useReducer(cartReducer, init);
 
-    return(
-        <FoodDataContext.Provider value={{state, dispatch}}>
+    return (
+        <FoodDataContext.Provider value={{ state, dispatch }}>
             {props.children}
         </FoodDataContext.Provider>
     )

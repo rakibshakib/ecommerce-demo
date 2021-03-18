@@ -1,4 +1,4 @@
-import { ADD_TO_CART, GET_PRODUCT, REMOVE_PRODUCT } from "./types";
+import { ADD_TO_CART, ADD_TO_WISHLIST, GET_PRODUCT, REMOVE_PRODUCT } from "./types";
 
 export const addToCart = (gevenProduct, quantity) => {
     let product = {...gevenProduct};
@@ -27,6 +27,14 @@ export const removeProductFromCart = (id) => {
         type: REMOVE_PRODUCT,
         payload: {
             id
+        }
+    })
+}
+export const addToWishlist = (product) => {
+    return ({
+        type: ADD_TO_WISHLIST,
+        payload: {
+            product
         }
     })
 }
